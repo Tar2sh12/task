@@ -5,7 +5,7 @@ import Category from "../../../DB/models/category.model.js";
  * @param {object} res
  * @param {object} next
  * @returns return response {message , task}
- * @description addJob
+ * @description addTask
  */
 export const addTask = async (req, res, next) => {
   const { list, text, privacy } = req.body;
@@ -61,6 +61,15 @@ const tasks = await Task.find({ privacy: "public" }).populate([
   res.status(200).json({ tasks });
 };
 
+
+
+/**
+ * @param {object} req
+ * @param {object} res
+ * @param {object} next
+ * @returns return response {message , deletedTask}
+ * @description deleteMyTask
+ */
 export const deleteMyTask = async (req, res, next) => {
   const { authUser } = req;
   const { _id } = req.params; // task id
@@ -86,6 +95,15 @@ export const deleteMyTask = async (req, res, next) => {
   const deletedTask = await Task.findByIdAndDelete({ _id });
   res.status(200).json({ msg: "task deleted ", deletedTask });
 };
+
+
+/**
+ * @param {object} req
+ * @param {object} res
+ * @param {object} next
+ * @returns return response {message , updatedTask}
+ * @description updateMyTask
+ */
 export const updateMyTask = async (req, res, next) => {
   const { authUser } = req;
   const { _id } = req.params; // task id

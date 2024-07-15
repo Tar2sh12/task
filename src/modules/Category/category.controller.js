@@ -15,7 +15,13 @@ export const addCategory = async (req, res, next) => {
   await category.save();
   res.status(201).json({ msg: "category created", category });
 };
-
+/**
+ * @param {object} req
+ * @param {object} res
+ * @param {object} next
+ * @returns return response {categories}
+ * @description getCategoriesOfAuthUserSchema
+ */
 export const getCategoriesOfAuthUserSchema = async (req, res, next) => {
   const { authUser } = req;
   const categories = await Category.find({ createdBy: authUser._id });
@@ -23,6 +29,14 @@ export const getCategoriesOfAuthUserSchema = async (req, res, next) => {
   res.status(200).json({ categories });
 };
 
+
+/**
+ * @param {object} req
+ * @param {object} res
+ * @param {object} next
+ * @returns return response {message , deletedCategory, deletedTask}
+ * @description deleteMyCategory
+ */
 export const deleteMyCategory = async (req, res, next) => {
   const { authUser } = req;
   const { _id } = req.params; // category id
@@ -50,6 +64,15 @@ export const deleteMyCategory = async (req, res, next) => {
   res.status(200).json({ msg: "task category ", deletedCategory, deletedTask });
 };
 
+
+
+/**
+ * @param {object} req
+ * @param {object} res
+ * @param {object} next
+ * @returns return response {message ,updatedCategory}
+ * @description updateMyCategory
+ */
 export const updateMyCategory = async (req, res, next) => {
   const { authUser } = req;
   const { _id } = req.params; // category id
@@ -80,7 +103,7 @@ export const updateMyCategory = async (req, res, next) => {
   );
   res.status(200).json({ msg: "category updated ", updatedCategory });
 };
-
+//pagination function
 async function paginateCat(pageNumber, pageSize) {
   const skip = (pageNumber - 1) * pageSize;
   try {
@@ -96,6 +119,15 @@ async function paginateCat(pageNumber, pageSize) {
   }
 }
 
+
+
+/**
+ * @param {object} req
+ * @param {object} res
+ * @param {object} next
+ * @returns return response {message , categories}
+ * @description paginate
+ */
 export const paginate = async (req, res, next) => {
     const pageNumber = 1; // Page number (1-based index)
     const pageSize = 3; // Number of items per page
@@ -114,7 +146,14 @@ export const paginate = async (req, res, next) => {
     });
 };
 
-//Filtering By Category Name 
+//
+/**
+ * @param {object} req
+ * @param {object} res
+ * @param {object} next
+ * @returns return response {message}
+ * @description Filtering By Category Name 
+ */
 export const search = async (req, res, next) => {
     const { search } = req.body;
     const result = await Category.find({
